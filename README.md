@@ -44,7 +44,22 @@ This Python script automates the process of downloading the latest video from a 
 
 <====Software Installation=====>
 
-Step 1: Create a Google Drive Service Account
+Step 1: Download Python from python.org and install it.
+
+-> During installation, check the box that says "Add Python to PATH".
+
+->Install pip manually
+
+->Open Command Prompt and type:
+
+python -m ensurepip --default-pip
+
+-> Verify pip Installation
+
+->After installation, check again:
+Type in command prompt: pip --version
+
+Step 2: Create a Google Drive Service Account
 
 ->Go to Google Cloud Console → https://console.cloud.google.com/
 
@@ -60,7 +75,7 @@ Step 1: Create a Google Drive Service Account
 
 ->Click Continue → Done.
 
-Step 2:  Download the JSON Key File
+Step 3:  Download the JSON Key File
 
 ->In the Service Accounts list, find your new account.
 
@@ -70,7 +85,7 @@ Step 2:  Download the JSON Key File
 
 ->Download and save this file (e.g., service_account.json) in your project folder.
 
-Step 3: Share a Google Drive Folder with the Service Account.
+Step 4: Share a Google Drive Folder with the Service Account.
 
 ->Go to Google Drive.
 
@@ -100,8 +115,11 @@ Copy your Google Drive service account JSON file to the project directory and up
 <====Configuration=====>
 
 Update the following variables in 'main.py':
+
 GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
+
 GOOGLE_DRIVE_FOLDER_ID = "your-google-drive-folder-id"
+
 SERVICE_ACCOUNT_FILE = "service_account.json"  # Your service account key file
 
 <====Usage=====>
