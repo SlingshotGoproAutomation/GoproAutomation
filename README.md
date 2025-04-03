@@ -111,6 +111,8 @@ Step 4:  Download the JSON Key File
 
 ->Download and save this file (e.g., service_account.json) in your project folder.
 
+**Ensure that this file is named as service_account.json.**
+
 Step 5: Share a Google Drive Folder with the Service Account.
 
 ->Go to Google Drive.
