@@ -158,7 +158,7 @@ This command clones (downloads) the repository from GitHub to your local compute
  *google-auth-httplib2* 
 
 
--> Save the file as requirements.txt inside your project folder (search Gopro Automation in file explorer).
+-> Save the file as requirements.txt inside your project folder (search GoproAutomation in file explorer).
 
 -> Run the install command again:
 
