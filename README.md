@@ -1,4 +1,4 @@
-# /////////////Singapore Polytechnic Intern 17/3/25 to 15/8/25/////////////
+# Singapore Polytechnic Intern 17/3/25 to 15/8/25
 
 GoPro Video Auto Upload and QR Code Generator
 
