@@ -131,8 +131,6 @@ git clone https://github.com/SlingshotGoproAutomation/GoproAutomation.git
 
 This command clones (downloads) the repository from GitHub to your local computer.
 
-**Replace yourusername with the actual GitHub username or organization that owns the repository.**
-
 ->Install dependencies:
 pip install -r requirements.txt
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
