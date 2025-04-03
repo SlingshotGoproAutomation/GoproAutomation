@@ -188,7 +188,9 @@ or *python3*
 
 *exit()*
 
-Run the script:
+**Before running the script, ensure steps outined in Hardware Installation are done.**
+
+Run the script in command prompt:
 *python main.py*
 The script will:
 
