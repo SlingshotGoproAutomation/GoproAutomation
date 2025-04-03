@@ -145,6 +145,8 @@ This command clones (downloads) the repository from GitHub to your local compute
 
  *beautifulsoup4* 
 
+ *bs4*
+
  *qrcode* 
 
  *google-api-python-client* 
