@@ -126,8 +126,8 @@ Step 5: Share a Google Drive Folder with the Service Account.
 pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
 ->Clone this repository in command prompt:
-git clone https://github.com/yourusername/gopro-auto-upload.git
-cd gopro-auto-upload
+
+git clone https://github.com/yourusername/gopro-auto-upload.git && cd gopro-auto-upload
 
 This command clones (downloads) the repository from GitHub to your local computer.
 
