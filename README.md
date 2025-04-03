@@ -151,7 +151,7 @@ google-auth-oauthlib
 
 google-auth-httplib2
 
--> Save the file as requirements.txt inside your project folder.
+-> Save the file as requirements.txt inside your project folder (search Gopro Automation in file explorer).
 
 -> Run the install command again:
 
