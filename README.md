@@ -192,7 +192,7 @@ or *python3*
 
 **Before running the script, ensure steps outined in Hardware Installation are done.**
 
-Run the script by Right click main.py -> Edit with IDLE :
+Run the script by Right click main.py -> Edit with IDLE -> Run (in the Menu Toolbar):
 
 The script will:
 
