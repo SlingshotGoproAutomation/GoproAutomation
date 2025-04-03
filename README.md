@@ -24,7 +24,7 @@ This Python script automates the process of downloading the latest video from a 
 
 -> Python 3.6+ installed with the required dependencies.
 
-<====Installation=====>
+<====Hardware Installation=====>
 
 Install Gopro Quikk on your tablet/phone. 
 
@@ -42,8 +42,47 @@ Connect the USB WIFI Adaptor to the Gopro WIFI. Gopro password can be found on t
 
 The inbuilt USB WIFI Adaptor on your computer should be connected to the local WIFI network at your premises.
 
+<====Software Installation=====>
 
-Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
+Step 1: Create a Google Drive Service Account
+
+->Go to Google Cloud Console → Google Cloud Console
+
+->Select your project (or create a new one).
+
+->Go to IAM & Admin → Service Accounts → Create Service Account.
+
+->Give it a name (e.g., gopro-uploader).
+
+->Under "Grant this service account access to project", assign:
+
+->"Editor" role (or "Owner" for full control).
+
+->Click Continue → Done.
+
+Step 2:  Download the JSON Key File
+
+->In the Service Accounts list, find your new account.
+
+->Click on it → Go to the "Keys" tab.
+
+->Click "Add Key" → "Create New Key" → Select JSON.
+
+->Download and save this file (e.g., service_account.json) in your project folder.
+
+Step 3: Share a Google Drive Folder with the Service Account.
+
+->Go to Google Drive.
+
+->Create a new folder (e.g., "GoPro Uploads").
+
+->Right-click → Share → Add the Service Account's email (xxxx@xxxx.iam.gserviceaccount.com).
+
+->Set it as Editor (so it can upload files).
+
+->Run the following command:
+
+pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
 Clone this repository:
 git clone https://github.com/yourusername/gopro-auto-upload.gitcd gopro-auto-upload
