@@ -121,6 +121,8 @@ Step 5: Share a Google Drive Folder with the Service Account.
 
 ->Set it as Editor (so it can upload files).
 
+-> Change the Sharing Permissions to: Anyone with the link can view.
+
 ->Run the following command in command prompt:
 
 pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
