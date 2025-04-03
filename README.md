@@ -127,7 +127,7 @@ pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-pyt
 
 ->Clone this repository in command prompt:
 
-git clone https://github.com/SlingshotGoproAutomation/gopro-auto-upload.git && cd gopro-auto-upload
+git clone https://github.com/SlingshotGoproAutomation/GoproAutomation/gopro-auto-upload.git && cd gopro-auto-upload
 
 This command clones (downloads) the repository from GitHub to your local computer.
 
