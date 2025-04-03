@@ -206,6 +206,12 @@ The script will:
 
 ->Generate and open a QR code to access the video.
 
+<====Playing video on local machine=====>
+
+Download VLC media player, and set all videos to always play using VLC Media Player.
+
+This prevents codec error, where video does not play but audio plays.
+
 <====Troubleshooting=====>
 
 If GoPro is powered off, the Gopro WIFI will have to be re-connected to the USB WIFI Adaptor. "Enable Preview" must also be clicked on the Gopro Quikk App to restart the WIFI hotspot.
@@ -215,3 +221,4 @@ If the GoPro video list does not update, try restarting the camera.
 Ensure the 'service_account.json' file is correct and has the necessary permissions.
 
 If the QR code does not open, check your system's default image viewer settings.
+
