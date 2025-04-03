@@ -143,7 +143,7 @@ This command clones (downloads) the repository from GitHub to your local compute
 
  *requests* 
 
- *beautifulsoup4* 
+ *beautifulsoup* 
 
  *bs4*
 
