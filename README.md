@@ -59,7 +59,33 @@ python -m ensurepip --default-pip
 ->After installation, check again:
 Type in command prompt: pip --version
 
-Step 2: Create a Google Drive Service Account
+Step 2: Download and Install Git
+
+->Download Git from the official website:
+
+👉 https://git-scm.com/downloads
+
+-> Run the installer and follow these steps:
+
+-> Keep clicking Next until you reach the Adjusting your PATH environment option.
+
+-> Select: ✅ "Git from the command line and also from 3rd-party software."
+
+-> Click Next and complete the installation.
+
+->Verify Git Installation
+
+->Open Command Prompt (cmd) or PowerShell.
+
+-> Type the following command and press Enter:
+
+git --version
+
+✅ If installed correctly, you'll see a version number, like:
+
+git version 2.x.x
+
+Step 3: Create a Google Drive Service Account
 
 ->Go to Google Cloud Console → https://console.cloud.google.com/
 
@@ -75,7 +101,7 @@ Step 2: Create a Google Drive Service Account
 
 ->Click Continue → Done.
 
-Step 3:  Download the JSON Key File
+Step 4:  Download the JSON Key File
 
 ->In the Service Accounts list, find your new account.
 
@@ -85,7 +111,7 @@ Step 3:  Download the JSON Key File
 
 ->Download and save this file (e.g., service_account.json) in your project folder.
 
-Step 4: Share a Google Drive Folder with the Service Account.
+Step 5: Share a Google Drive Folder with the Service Account.
 
 ->Go to Google Drive.
 
