@@ -190,8 +190,8 @@ or *python3*
 
 **Before running the script, ensure steps outined in Hardware Installation are done.**
 
-Run the script in command prompt:
-*python main.py*
+Run the script by Right click main.py -> Edit with IDLE :
+
 The script will:
 
 ->Fetch the latest video from the GoPro.
