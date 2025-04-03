@@ -121,11 +121,11 @@ Step 5: Share a Google Drive Folder with the Service Account.
 
 ->Set it as Editor (so it can upload files).
 
-->Run the following command:
+->Run the following command in command prompt:
 
 pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
-->Clone this repository:
+->Clone this repository in command prompt:
 git clone https://github.com/yourusername/gopro-auto-upload.git
 cd gopro-auto-upload
 
