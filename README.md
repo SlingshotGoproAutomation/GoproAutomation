@@ -150,6 +150,17 @@ SERVICE_ACCOUNT_FILE = "service_account.json"  # Your service account key file
 
 <====Usage=====>
 
+->Open Command Prompt (cmd).
+
+Type: python
+or python3
+
+-> A Python interactive shell should open. You can now type Python code directly:
+
+-> To exit, type:
+
+exit()
+
 Run the script:
 python main.py
 The script will:
