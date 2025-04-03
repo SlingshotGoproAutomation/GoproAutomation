@@ -26,21 +26,21 @@ This Python script automates the process of downloading the latest video from a 
 
 <====Hardware Installation=====>
 
-Install Gopro Quikk on your tablet/phone. 
+-> Install Gopro Quikk on your tablet/phone. 
 
-Connect the Gopro camera to your tablet/phone using bluetooth. 
+-> Connect the Gopro camera to your tablet/phone using bluetooth. 
 
-Press Enable Preview in the app to enable WIFI Hotspot from the Gopro.
+-> Press Enable Preview in the app to enable WIFI Hotspot from the Gopro.
 
-Place your GoPro camera on the same network as your computer by:
+-> Place your GoPro camera on the same network as your computer by:
 
-Open control panel on your computer->Network & internet -> Network & Sharing -> Change Adaptor Settings.
+-> Open control panel on your computer->Network & internet -> Network & Sharing -> Change Adaptor Settings.
 
-Right click on the USB WIFI Adaptor, and press Connect/Disconnect. 
+-> Right click on the USB WIFI Adaptor, and press Connect/Disconnect. 
 
-Connect the USB WIFI Adaptor to the Gopro WIFI. Gopro password can be found on the Gopro Quikk app.
+-> Connect the USB WIFI Adaptor to the Gopro WIFI. Gopro password can be found on the Gopro Quikk app.
 
-The inbuilt USB WIFI Adaptor on your computer should be connected to the local WIFI network at your premises.
+-> The inbuilt USB WIFI Adaptor on your computer should be connected to the local WIFI network at your premises.
 
 <====Software Installation=====>
 
@@ -84,10 +84,10 @@ Step 3: Share a Google Drive Folder with the Service Account.
 
 pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
-Clone this repository:
+->Clone this repository:
 git clone https://github.com/yourusername/gopro-auto-upload.gitcd gopro-auto-upload
 
-Install dependencies:
+->Install dependencies:
 pip install -r requirements.txt
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
