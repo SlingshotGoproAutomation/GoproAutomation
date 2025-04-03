@@ -52,7 +52,7 @@ Step 1: Download Python from python.org and install it.
 
 ->Open Command Prompt and type:
 
-python -m ensurepip --default-pip
+* *python -m ensurepip --default-pip* *
 
 -> Verify pip Installation
 
@@ -63,7 +63,7 @@ Step 2: Download and Install Git
 
 ->Download Git from the official website:
 
-👉 https://git-scm.com/downloads
+👉 * *https://git-scm.com/downloads* *
 
 -> Run the installer and follow these steps:
 
@@ -79,15 +79,15 @@ Step 2: Download and Install Git
 
 -> Type the following command and press Enter:
 
-git --version
+* *git --version* *
 
 ✅ If installed correctly, you'll see a version number, like:
 
-git version 2.x.x
+* *git version 2.x.x* *
 
 Step 3: Create a Google Drive Service Account
 
-->Go to Google Cloud Console → https://console.cloud.google.com/
+->Go to Google Cloud Console → * *https://console.cloud.google.com/* *
 
 ->Select your project (or create a new one).
 
@@ -127,7 +127,7 @@ pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-pyt
 
 ->Clone this repository in command prompt:
 
-git clone https://github.com/SlingshotGoproAutomation/GoproAutomation.git
+* *git clone https://github.com/SlingshotGoproAutomation/GoproAutomation.git* *
 
 This command clones (downloads) the repository from GitHub to your local computer.
 
@@ -137,25 +137,26 @@ This command clones (downloads) the repository from GitHub to your local compute
 
 -> Add the following lines:
 
-requests
+* *requests* *
 
-beautifulsoup4
+* *beautifulsoup4* *
 
-qrcode
+* *qrcode* *
 
-google-api-python-client
+* *google-api-python-client* *
 
-google-auth
+* *google-auth* *
 
-google-auth-oauthlib
+* *google-auth-oauthlib* *
 
-google-auth-httplib2
+* *google-auth-httplib2* *
+
 
 -> Save the file as requirements.txt inside your project folder (search Gopro Automation in file explorer).
 
 -> Run the install command again:
 
-pip install -r requirements.txt
+* *pip install -r requirements.txt* *
 
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
@@ -164,11 +165,11 @@ Copy your Google Drive service account JSON file to the project directory and up
 
 Update the following variables in 'main.py':
 
-GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
+GOPRO_BASE_URL = * *"http://10.5.5.9/videos/DCIM/100GOPRO/"* *
 
-GOOGLE_DRIVE_FOLDER_ID = "your-google-drive-folder-id"
+GOOGLE_DRIVE_FOLDER_ID = * *"your-google-drive-folder-id"* * #e.g. https://drive.google.com/drive/folders/**FOLDER ID**
 
-SERVICE_ACCOUNT_FILE = "service_account.json"  # Your service account key file
+SERVICE_ACCOUNT_FILE = * *"service_account.json"* *  # Your service account key file
 
 <====Usage=====>
 
