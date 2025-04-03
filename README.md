@@ -131,8 +131,32 @@ git clone https://github.com/SlingshotGoproAutomation/GoproAutomation.git
 
 This command clones (downloads) the repository from GitHub to your local computer.
 
-->Install dependencies:
+-> Create requirements.txt Manually
+
+->Open Notepad (Windows) or TextEdit (Mac).
+
+-> Add the following lines:
+
+requests
+
+beautifulsoup4
+
+qrcode
+
+google-api-python-client
+
+google-auth
+
+google-auth-oauthlib
+
+google-auth-httplib2
+
+-> Save the file as requirements.txt inside your project folder.
+
+-> Run the install command again:
+
 pip install -r requirements.txt
+
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
 
