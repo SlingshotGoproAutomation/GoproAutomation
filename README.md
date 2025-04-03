@@ -87,7 +87,9 @@ Step 2: Download and Install Git
 
 Step 3: Create a Google Drive Service Account
 
-->Go to Google Cloud Console → * *https://console.cloud.google.com/* *
+->Go to Google Cloud Console → * *https://console.cloud.google.com/* 
+
+->Under Quick Access -> APIs & Services ->Enable APIs and services -> Search for Google Drive API -> Enable.
 
 ->Select your project (or create a new one).
 
