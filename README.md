@@ -46,7 +46,7 @@ This Python script automates the process of downloading the latest video from a 
 
 Step 1: Create a Google Drive Service Account
 
-->Go to Google Cloud Console → Google Cloud Console
+->Go to Google Cloud Console → https://console.cloud.google.com/
 
 ->Select your project (or create a new one).
 
