@@ -166,6 +166,10 @@ This command clones (downloads) the repository from GitHub to your local compute
 
  *pip install -r requirements.txt* 
 
+->Additionally install in command prompt:
+
+*pip install qrcode*
+
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
 
