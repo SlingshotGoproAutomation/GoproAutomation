@@ -87,27 +87,35 @@ def download_video(latest_video):
 
 def upload_video_to_drive(local_video_file):
     try:
-        # Extract only the filename (e.g., GX010186.mp4) from the full path
+        # Extract the filename (e.g., GX010186.mp4)
         file_name = os.path.basename(local_video_file)
 
-        # Upload video to Google Drive with extracted file name
+        # Prepare file metadata for Google Drive
         file_metadata = {
-            'name': file_name,  # Set name to original GoPro filename
+            'name': file_name,
             'parents': [GOOGLE_DRIVE_FOLDER_ID]
         }
-        media = MediaFileUpload(local_video_file, mimetype='video/mp4')
-        uploaded_file = drive_service.files().create(
+
+        # Use resumable upload for large files
+        media = MediaFileUpload(local_video_file, mimetype='video/mp4', resumable=True)
+        request = drive_service.files().create(
             body=file_metadata,
             media_body=media,
             fields='id, webViewLink'
-        ).execute()
+        )
 
-        print(f"✅ Video uploaded to Google Drive: {uploaded_file['webViewLink']}")
-        return uploaded_file['webViewLink']
+        response = None
+        while response is None:
+            status, response = request.next_chunk()
+            if status:
+                print(f"Uploading... {int(status.progress() * 100)}%")
+
+        print(f"✅ Video uploaded to Google Drive: {response['webViewLink']}")
+        return response['webViewLink']
+
     except Exception as e:
-        print(f"Error uploading video to Google Drive: {e}")
+        print(f"❌ Error uploading video to Google Drive: {e}")
         return None
-
 
 def generate_qr_code(video_link):
     # Generate QR code for the video link
