@@ -22,8 +22,6 @@ This Python script automates the process of downloading the latest video from a 
 
 -> A Google Drive service account with a valid 'service_account.json' key file.
 
--> Python 3.6+ installed with the required dependencies.
-
 <====Hardware Installation=====>
 
 -> Install Gopro Quikk on your tablet/phone. 
@@ -44,48 +42,7 @@ This Python script automates the process of downloading the latest video from a 
 
 <====Software Installation=====>
 
-Step 1: Download Python from python.org and install it.
-
--> During installation, check the box that says "Add Python to PATH".
-
-->Install pip manually
-
-->Open Command Prompt and type:
-
- *python -m ensurepip --default-pip* 
-
--> Verify pip Installation
-
-->After installation, check again:
-Type in command prompt: pip --version
-
-Step 2: Download and Install Git
-
-->Download Git from the official website:
-
-👉  *https://git-scm.com/downloads* 
-
--> Run the installer and follow these steps:
-
--> Keep clicking Next until you reach the Adjusting your PATH environment option.
-
--> Select: ✅ "Git from the command line and also from 3rd-party software."
-
--> Click Next and complete the installation.
-
-->Verify Git Installation
-
-->Open Command Prompt (cmd) or PowerShell.
-
--> Type the following command and press Enter:
-
- *git --version* 
-
-✅ If installed correctly, you'll see a version number, like:
-
- *git version 2.x.x* 
-
-Step 3: Create a Google Drive Service Account
+Step 1: Create a Google Drive Service Account
 
 ->Go to Google Cloud Console → * *https://console.cloud.google.com/* 
 
@@ -103,7 +60,7 @@ Step 3: Create a Google Drive Service Account
 
 ->Click Continue → Done.
 
-Step 4:  Download the JSON Key File
+Step 2:  Download the JSON Key File
 
 ->In the Service Accounts list, find your new account.
 
@@ -115,7 +72,7 @@ Step 4:  Download the JSON Key File
 
 **Ensure that this file is named as service_account.json.**
 
-Step 5: Share a Google Drive Folder with the Service Account.
+Step 3: Share a Google Drive Folder with the Service Account.
 
 ->Go to Google Drive.
 
