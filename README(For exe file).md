@@ -28,7 +28,7 @@ This Executable file utilising Python automates the process of downloading the l
 
 -> Connect the Gopro camera to your tablet/phone using bluetooth.
 
--> Press Enable Preview in the app to enable WIFI Hotspot from the Gopro.
+-> Press Enable Preview in the app to enable WIFI Hotspot from the Gopro. #When GoPro battery is <=20%, the WIFI hotspot feature is disabled.
 
 -> Place your GoPro camera on the same network as your computer by:
 
@@ -88,7 +88,9 @@ Copy your Google Drive service account JSON file to the project directory and up
 
 Step 4: Download the latest release executable file.
 
--> Go to Releases -> Download main.exe with the tag "latest".
+-> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download main.exe with the tag "latest".
+
+-> If downloading an updated version of main.exe, ensure that the old main.exe desktop shortcut is deleted.
 
 Step 5: Configuration
 
@@ -129,5 +131,7 @@ If the GoPro video list does not update, try restarting the camera.
 Ensure the 'service_account.json' file is correct and has the necessary permissions.
 
 If video cannot be accessed by QR code, ensure that the Google Drive folder's sharing permissions are set to: "Anyone with the link can view". 
+
+If the executable file main.exe is unable to run succesfully, ensure that the required files such as config.json and service_account.json are included in the same project directory.
 
 If the QR code does not open, check your system's default image viewer settings.
