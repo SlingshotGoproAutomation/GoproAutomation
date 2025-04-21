@@ -10,17 +10,33 @@ import webbrowser
 import urllib.parse
 import platform
 import subprocess
+import json
+import sys
+
+def resource_path(filename):
+    
+    """ Get the absolute path to a resource, whether running from .py or from a PyInstaller .exe """
+    if getattr(sys, 'frozen', False):
+        # Running in a PyInstaller bundle
+        return os.path.join(sys._MEIPASS, filename)
+    else:
+        # Running in a normal Python environment
+        return os.path.join(os.path.abspath("."), filename)
+
+# Use it for loading config
+with open(resource_path("config.json"), "r") as config_file:
+    config = json.load(config_file)
 
 # GoPro directory URL
 GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
-GOOGLE_DRIVE_FOLDER_ID = '1Z_8eiMSEi68AU-EZW_laIdeNPpjzIoET'  # Replace with your folder ID
+GOOGLE_DRIVE_FOLDER_ID = config["GOOGLE_DRIVE_FOLDER_ID"]
 
 # Set up Google Drive API service
-SCOPES = ['https://www.googleapis.com/auth/drive.file']
-SERVICE_ACCOUNT_FILE = 'service_account.json'  # Path to your service account key file
+SCOPES = ["https://www.googleapis.com/auth/drive.file"]
+SERVICE_ACCOUNT_FILE = config["SERVICE_ACCOUNT_FILE"]
 
 # Authenticate using service account credentials
-creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+creds = Credentials.from_service_account_file(resource_path(SERVICE_ACCOUNT_FILE), scopes=SCOPES)
 drive_service = build('drive', 'v3', credentials=creds)
 
 
