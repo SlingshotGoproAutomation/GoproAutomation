@@ -84,48 +84,6 @@ Step 3: Share a Google Drive Folder with the Service Account.
 
 -> Change the Sharing Permissions to: Anyone with the link can view.
 
-->Run the following command in command prompt:
-
-pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
-
-->Clone this repository in command prompt:
-
-git clone https://github.com/SlingshotGoproAutomation/GoproAutomation.git
-
-This command clones (downloads) the repository from GitHub to your local computer.
-
--> Create requirements.txt Manually
-
-->Open Notepad (Windows) or TextEdit (Mac).
-
--> Add the following lines:
-
-requests
-
-beautifulsoup
-
-bs4
-
-qrcode
-
-google-api-python-client
-
-google-auth
-
-google-auth-oauthlib
-
-google-auth-httplib2
-
--> Save the file as requirements.txt inside your project folder (search GoproAutomation in file explorer).
-
--> Run the install command again:
-
-pip install -r requirements.txt
-
-->Additionally install in command prompt:
-
-pip install qrcode
-
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
 <====Configuration=====>
@@ -139,20 +97,6 @@ GOOGLE_DRIVE_FOLDER_ID = "your-google-drive-folder-id" #e.g. https://drive.googl
 SERVICE_ACCOUNT_FILE = "service_account.json" # Your service account key file
 
 <====Usage=====>
-
-->Open Command Prompt (cmd).
-
-Type: python or python3
-
--> A Python interactive shell should open. You can now type Python code directly:
-
--> To exit, type:
-
-exit()
-
-Before running the script, ensure steps outined in Hardware Installation are done.
-
-Run the script by Right click main.py -> Edit with IDLE -> Run (in the Menu Toolbar):
 
 The script will:
 
