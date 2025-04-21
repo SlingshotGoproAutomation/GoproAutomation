@@ -29,11 +29,11 @@ with open(resource_path("config.json"), "r") as config_file:
 
 # GoPro directory URL
 GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
-GOOGLE_DRIVE_FOLDER_ID = config["GOOGLE_DRIVE_FOLDER_ID"]
+GOOGLE_DRIVE_FOLDER_ID = config["GOOGLE_DRIVE_FOLDER_ID"]  #Update GOOGLE_DRIVE_FOLDER_ID in config.json file.
 
 # Set up Google Drive API service
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
-SERVICE_ACCOUNT_FILE = config["SERVICE_ACCOUNT_FILE"]
+SERVICE_ACCOUNT_FILE = config["SERVICE_ACCOUNT_FILE"] #Update SERVICE_ACCOUNT_FILE in config.json file.
 
 # Authenticate using service account credentials
 creds = Credentials.from_service_account_file(resource_path(SERVICE_ACCOUNT_FILE), scopes=SCOPES)
