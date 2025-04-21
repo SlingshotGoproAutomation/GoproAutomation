@@ -100,6 +100,8 @@ Step 5: Configuration
 
 ->Ensure that the files config.json and service_account.json are present in the project directory:
 
+-> Copy and paste the file in home screen to create a desktop shortcut.
+
 <====Usage=====>
 
 The script will:
