@@ -82,19 +82,23 @@ Step 3: Share a Google Drive Folder with the Service Account.
 
 ->Set it as Editor (so it can upload files).
 
--> Change the Sharing Permissions to: Anyone with the link can view.
+-> Change the Sharing Permissions to: Anyone with the link can view. 
 
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
-<====Configuration=====>
+Step 4: Download the latest release executable file.
 
-Update the following variables in 'main.py':
+-> Go to Releases -> Download main.exe with the tag "latest".
 
-GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
+Step 5: Configuration
 
-GOOGLE_DRIVE_FOLDER_ID = "your-google-drive-folder-id" #e.g. https://drive.google.com/drive/folders/**FOLDER ID**
+-> Update the following variables in 'config.json':
 
-SERVICE_ACCOUNT_FILE = "service_account.json" # Your service account key file
+-> GOOGLE_DRIVE_FOLDER_ID = "your-google-drive-folder-id" #e.g. https://drive.google.com/drive/folders/**FOLDER ID**
+
+-> SERVICE_ACCOUNT_FILE = "service_account.json" # Your service account key file
+
+->Ensure that the files config.json and service_account.json are present in the project directory:
 
 <====Usage=====>
 
@@ -121,5 +125,7 @@ If GoPro is powered off, the Gopro WIFI will have to be re-connected to the USB 
 If the GoPro video list does not update, try restarting the camera.
 
 Ensure the 'service_account.json' file is correct and has the necessary permissions.
+
+If video cannot be accessed by QR code, ensure that the Google Drive folder's sharing permissions are set to: "Anyone with the link can view". 
 
 If the QR code does not open, check your system's default image viewer settings.
