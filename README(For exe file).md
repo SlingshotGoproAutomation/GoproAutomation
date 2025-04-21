@@ -92,7 +92,7 @@ Step 4: Download the latest release executable file.
 
 Step 5: Configuration
 
--> Update the following variables in 'config.json':
+Update the following variables in 'config.json':
 
 -> GOOGLE_DRIVE_FOLDER_ID = "your-google-drive-folder-id" #e.g. https://drive.google.com/drive/folders/**FOLDER ID**
 
