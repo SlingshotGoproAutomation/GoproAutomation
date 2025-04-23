@@ -8,7 +8,7 @@ This Python script automates the process of downloading the latest video from a 
 
 -> Automatically fetches the latest video from the GoPro camera.
 
--> Downloads the video to the local system.
+-> Downloads the video to an automatically generated folder e.g. 12/3/25.
 
 ->Uploads the video to Google Drive using a service account (no user login required).
 
@@ -161,7 +161,7 @@ The script will:
 
 ->Fetch the latest video from the GoPro.
 
-->Download it to the local machine.
+-> Downloads the video to an automatically generated folder e.g. 12/3/25.
 
 ->Upload it to Google Drive.
 
