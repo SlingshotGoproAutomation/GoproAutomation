@@ -14,6 +14,8 @@ import subprocess
 import json
 import sys
 
+
+
 def resource_path(filename):
     
     """ Get the absolute path to a resource, whether running from .py or from a PyInstaller .exe """
@@ -41,13 +43,19 @@ creds = Credentials.from_service_account_file(resource_path(SERVICE_ACCOUNT_FILE
 drive_service = build('drive', 'v3', credentials=creds)
 
 
-# Create a folder based on the current date (e.g., 12-03-25)
-today_str = datetime.now().strftime("%d-%m-%y")  # You can change to "%m-%d-%y" if preferred
-day_folder = os.path.join(os.getcwd(), today_str)
+# Determine base directory of the executable or script
+if getattr(sys, 'frozen', False):
+    # If running from a PyInstaller EXE
+    exe_dir = os.path.dirname(sys.executable) #directory of the executable file, stored in dist/.
+    BASE_DIR = os.path.abspath(os.path.join(exe_dir, os.pardir))  # One level up from dist/
+else:
+    # If running from a script
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Create the folder if it doesn't exist
-os.makedirs(day_folder, exist_ok=True)
-
+# Create a folder for today's date (e.g., 21-04-25) in BASE_DIR
+today_str = datetime.now().strftime("%d-%m-%y")
+day_folder = os.path.join(BASE_DIR, today_str)
+os.makedirs(day_folder, exist_ok=True) # Create the folder if it doesn't exist
 
 def get_latest_video_file():
     try:
@@ -184,3 +192,5 @@ if latest_video:
             generate_qr_code(video_link)
 else:
     print("No latest video to upload.")
+
+
