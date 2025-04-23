@@ -6,6 +6,7 @@ import qrcode
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google.oauth2.service_account import Credentials
+from datetime import datetime
 import webbrowser
 import urllib.parse
 import platform
@@ -24,20 +25,28 @@ def resource_path(filename):
         return os.path.join(os.path.abspath("."), filename)
 
 # Use it for loading config
-with open(resource_path("config.json"), "r") as config_file:
-    config = json.load(config_file)
+with open(resource_path("config.json"), "r") as config_file: #"config.json" is opened, and is set to read mode "r" (default). The return value of open is stored in config_file.
+    config = json.load(config_file) #Loads the user updated config file to variable config.
 
 # GoPro directory URL
 GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
-GOOGLE_DRIVE_FOLDER_ID = config["GOOGLE_DRIVE_FOLDER_ID"]  #Update GOOGLE_DRIVE_FOLDER_ID in config.json file.
+GOOGLE_DRIVE_FOLDER_ID = config["GOOGLE_DRIVE_FOLDER_ID"]
 
 # Set up Google Drive API service
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
-SERVICE_ACCOUNT_FILE = config["SERVICE_ACCOUNT_FILE"] #Update SERVICE_ACCOUNT_FILE in config.json file.
+SERVICE_ACCOUNT_FILE = config["SERVICE_ACCOUNT_FILE"]
 
 # Authenticate using service account credentials
 creds = Credentials.from_service_account_file(resource_path(SERVICE_ACCOUNT_FILE), scopes=SCOPES)
 drive_service = build('drive', 'v3', credentials=creds)
+
+
+# Create a folder based on the current date (e.g., 12-03-25)
+today_str = datetime.now().strftime("%d-%m-%y")  # You can change to "%m-%d-%y" if preferred
+day_folder = os.path.join(os.getcwd(), today_str)
+
+# Create the folder if it doesn't exist
+os.makedirs(day_folder, exist_ok=True)
 
 
 def get_latest_video_file():
@@ -57,7 +66,7 @@ def get_latest_video_file():
 
             if video_files:
                 # Sort video files based on their names (assuming they are sequentially numbered)
-                latest_video = sorted(video_files, reverse=True)[0]  # Get the most recent file
+                latest_video = sorted(video_files, reverse=True)[0]  # Get the most recent file. The "sorted" function has reverse=True, so the largest number is now [0].
                 return latest_video
             else:
                 print("No video files found in the directory.")
@@ -75,13 +84,13 @@ def download_video(latest_video):
     local_video_file = os.path.basename(latest_video)  # Extract filename (e.g., GX010185.MP4)
 
     # Construct the full local file path to save the video
-    local_path = os.path.join(os.getcwd(), local_video_file)
-
+    local_path = os.path.join(day_folder, local_video_file) #Downloads to a folder (e.g. 12/3/25)
+    
     print(f"Downloading the latest video: {latest_video}")
 
     # ✅ Ensure latest_video does not already contain the full path
     if latest_video.startswith("/videos/"):
-        video_url = f"http://10.5.5.9{latest_video}"  # Use full correct path
+        video_url = f"http://10.5.5.9{latest_video}"  # Use full correct path. F string is used, so curly brackets must be present for {latest video}.
     else:
         video_url = f"{GOPRO_BASE_URL}{latest_video}"  # Append if needed
 
@@ -90,7 +99,7 @@ def download_video(latest_video):
     # Download the video file
     response = requests.get(video_url, stream=True)
     if response.status_code == 200:
-        with open(local_path, "wb") as file:
+        with open(local_path, "wb") as file: #Opens the local path, set to write ("w") in binary mode ("b"). Video is downloaded into the local path.
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
                     file.write(chunk)
@@ -109,7 +118,7 @@ def upload_video_to_drive(local_video_file):
         # Prepare file metadata for Google Drive
         file_metadata = {
             'name': file_name,
-            'parents': [GOOGLE_DRIVE_FOLDER_ID]
+            'parents': [GOOGLE_DRIVE_FOLDER_ID] #Dictionary uses curly brackets. Keys are 'name' and 'parents'.
         }
 
         # Use resumable upload for large files
@@ -124,7 +133,7 @@ def upload_video_to_drive(local_video_file):
         while response is None:
             status, response = request.next_chunk()
             if status:
-                print(f"Uploading... {int(status.progress() * 100)}%")
+                print(f"Uploading... {int(status.progress() * 100)}%") #Code for upload progress percentage.
 
         print(f"✅ Video uploaded to Google Drive: {response['webViewLink']}")
         return response['webViewLink']
@@ -141,11 +150,11 @@ def generate_qr_code(video_link):
         box_size=10,
         border=4,
     )
-    qr.add_data(video_link)
-    qr.make(fit=True)
+    qr.add_data(video_link) #Adds the video link to the QR code
+    qr.make(fit=True) #Creates the QR code with qr.make().
 
     # Save the QR code image
-    qr_image_path = os.path.abspath("video_qr_code.png")  # Absolute path
+    qr_image_path = os.path.join(day_folder, "video_qr_code.png") #Saves qr code inside a folder e.g. 12/3/25.
     img = qr.make_image(fill='black', back_color='white')
     img.save(qr_image_path)
 
