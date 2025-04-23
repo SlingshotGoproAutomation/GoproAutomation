@@ -102,7 +102,7 @@ Update the following variables in 'config.json':
 
 ->Ensure that the files config.json and service_account.json are present in the project directory:
 
--> Copy and paste the file in home screen to create a desktop shortcut.
+-> Right click on main.exe in file manager -> Click on Show more options -> Create Shortcut -> Copy and paste the shortcut in home screen to create a desktop shortcut.
 
 <====Usage=====>
 
