@@ -13,6 +13,11 @@ import platform
 import subprocess
 import json
 import sys
+import schedule
+import time
+import CheckLatestUpdate
+
+
 
 
 
@@ -182,6 +187,11 @@ def generate_qr_code(video_link):
         print(f"❌ Error opening QR Code: {e}")
 
     return qr_image_path
+
+def job_check_update():
+    """Wrapper so you can schedule easily."""
+    CheckLatestUpdate.check_and_update()
+
 # Main execution flow
 latest_video = get_latest_video_file()
 if latest_video:
@@ -192,5 +202,19 @@ if latest_video:
             generate_qr_code(video_link)
 else:
     print("No latest video to upload.")
+
+
+# schedule to run every minute (or change to .hour, .day.at("10:00"), etc.)
+schedule.every().minute.do(job_check_update)
+
+print("Scheduler started: checking Slingshot.exe every minute.")
+# optional initial run
+job_check_update()
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+
 
 
