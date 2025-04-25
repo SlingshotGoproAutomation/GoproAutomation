@@ -3,15 +3,26 @@ import requests
 from pathlib import Path
 import pythoncom
 import win32com.client
+import ctypes
+import sys
+
+# ── Utility: Base Directory ────────────────────────────────────────────────────
+def get_base_dir():
+    if getattr(sys, 'frozen', False):
+        return Path(sys.executable).parent.parent
+    else:
+        return Path(__file__).resolve().parent
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 REPO              = "SlingshotGoproAutomation/GoproAutomation"
 EXE_NAME          = "Slingshot.exe"
-DOWNLOAD_DIR      = Path(__file__).parent / "dist"
-LAST_VERSION_FILE = DOWNLOAD_DIR / "last_version.txt"
-GITHUB_API_LATEST = f"https://api.github.com/repos/{REPO}/releases/latest"
 SHORTCUT_NAME     = "Slingshot"
+GITHUB_API_LATEST = f"https://api.github.com/repos/{REPO}/releases/latest"
+BASE_DIR          = get_base_dir()
+DOWNLOAD_DIR      = BASE_DIR / "dist"
+LAST_VERSION_FILE = DOWNLOAD_DIR / "last_version.txt"
 # ────────────────────────────────────────────────────────────────────────────────
+
 
 #Requests from Github Repository for latest Releases.
 def get_latest_release_info():
@@ -31,28 +42,60 @@ def save_local_version(tag):
     LAST_VERSION_FILE.write_text(tag)
 
 #Downloads the latest Slingshot.exe release to the correct diretory.
-def download_asset(asset_url, target_path):
+def download_asset(asset_url, target_path: Path):
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+    # If a previous EXE exists, remove it so we can overwrite
+    if target_path.exists():
+        try:
+            target_path.unlink()
+        except Exception as e:
+            print(f"Warning: could not remove existing {target_path.name}: {e}")
+
+    # Now download fresh
     with requests.get(asset_url, stream=True) as r:
         r.raise_for_status()
-        with open(target_path, "wb") as f: 
+        with open(target_path, "wb") as f:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-#Creates a desktop shortcut for the latest Slingshot.exe file
+
+def get_desktop_path() -> Path:
+    # CSIDL_DESKTOPDIRECTORY = 0x10
+    buf = ctypes.create_unicode_buffer(260)
+    ctypes.windll.shell32.SHGetFolderPathW(None, 0x10, None, 0, buf)
+    return Path(buf.value)
+
+
 def create_desktop_shortcut(target_path: Path, shortcut_name: str):
-    desktop = Path(os.environ["USERPROFILE"]) / "Desktop"
+    from pathlib import Path
+    import pythoncom
+    import win32com.client
+
+    desktop = get_desktop_path()
     shortcut_path = desktop / f"{shortcut_name}.lnk"
 
-    # Initialize COM
+    if shortcut_path.exists():
+        try:
+            shortcut_path.unlink()
+        except Exception as e:
+            print(f"Warning: couldn’t delete old shortcut: {e}")
+
     pythoncom.CoInitialize()
     shell = win32com.client.Dispatch("WScript.Shell")
     shortcut = shell.CreateShortcut(str(shortcut_path))
-    shortcut.Targetpath = str(target_path)
-    shortcut.WorkingDirectory = str(target_path.parent)
-    shortcut.IconLocation = str(target_path)  # use the exe as icon
+
+    # Use the target path directly
+    target = target_path.resolve()
+
+    shortcut.Targetpath = str(target)
+    shortcut.WorkingDirectory = str(target.parent)
+    shortcut.IconLocation = str(target)
     shortcut.Save()
-  
+    print(f"Shortcut created: {shortcut_path}")
+
+
+
 
 def check_and_update():
     info       = get_latest_release_info() #Calls get_latest_release_info and gets return value in JSON format.
@@ -69,14 +112,18 @@ def check_and_update():
         print(f"ERROR: No asset named {EXE_NAME} found.")
         return
 
-    target_path = DOWNLOAD_DIR / EXE_NAME #Creating target_path
+    target_path = DOWNLOAD_DIR / "Slingshot_new.exe" #Creating target_path
     print(f"Downloading {EXE_NAME} to {target_path}...")
     download_asset(asset["browser_download_url"], target_path) #Calls download_asset function.
     save_local_version(latest_tag) #Calls save_local_version(latest_tag).
     print(f"Download complete. Version:{latest_tag}")
 
-    # create/update the desktop shortcut
-    create_desktop_shortcut(target_path, SHORTCUT_NAME) #Calls the create_desktop_shortcut function.
-    print(f"Shortcut created: {shortcut_path}")
+    # Create/update the shortcut to the final executable, not the temporary one
+    create_desktop_shortcut(DOWNLOAD_DIR / "Slingshot.exe", SHORTCUT_NAME)
+    
+  
+   
+
+
   
    
