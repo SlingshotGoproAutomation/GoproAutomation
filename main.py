@@ -143,7 +143,6 @@ def generate_qr_code(video_link):
     return qr_image_path
 
 
-# --- Updater Job ---
 def job_check_update():
     try:
         CheckLatestUpdate.check_and_update()
@@ -152,14 +151,14 @@ def job_check_update():
         if new_exe.exists():
             print("New version downloaded. Launching updater...")
 
-            # Determine where to look for launcher.exe
+            # 1. Handle both EXE and script mode
             if getattr(sys, 'frozen', False):
                 exe_dir = Path(sys.executable).resolve().parent
-                launcher_path = exe_dir / "launcher.exe"
             else:
-                # When not frozen, launcher.exe is in ./dist/
-                script_dir = Path(__file__).resolve().parent
-                launcher_path = script_dir / "dist" / "launcher.exe"
+                # Use script directory when running from source
+                exe_dir = Path(__file__).resolve().parent / "dist"
+
+            launcher_path = exe_dir / "launcher.exe"
 
             if launcher_path.exists():
                 print(f"Launching: {launcher_path}")
@@ -173,8 +172,7 @@ def job_check_update():
         traceback.print_exc()
 
 
-
-
+    
 
 
 # --- Full GoPro Automation Cycle ---
@@ -201,5 +199,9 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         time.sleep(1)
+
+
+
+        
 
 
