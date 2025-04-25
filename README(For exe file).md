@@ -119,9 +119,15 @@ The script will:
 
 ->Downloads the video to an automatically generated folder e.g. 12/3/25.
 
-->Upload it to Google Drive.
+->Uploads the video to Google Drive using a service account (no user login required).
 
 ->Generate and open a QR code to access the video.
+
+->Scans for latest version of exe file.
+
+->Automatically downloads and replaces the old exe file.
+
+->Automatically creates desktop shortcut for the new exe file.
 
 <====Playing video on local machine=====>
 
@@ -139,6 +145,6 @@ Ensure the 'service_account.json' file is correct and has the necessary permissi
 
 If video cannot be accessed by QR code, ensure that the Google Drive folder's sharing permissions are set to: "Anyone with the link can view". 
 
-If the executable file main.exe is unable to run succesfully, ensure that the required files such as config.json and service_account.json are included in the same project directory.
+If the executable file Slingshot.exe is unable to run succesfully, ensure that the required files such as config.json and service_account.json are included in the same project directory.
 
 If the QR code does not open, check your system's default image viewer settings.
