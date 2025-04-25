@@ -16,107 +16,84 @@ import sys
 import schedule
 import time
 import CheckLatestUpdate
+import traceback
+from pathlib import Path
 
+# --- Constants ---
+DIST_FOLDER = CheckLatestUpdate.get_base_dir() / "dist"
+print(f"My dist folder is at: {DIST_FOLDER}")
 
-
-
-
+# --- Helper to get resource paths ---
 def resource_path(filename):
-    
-    """ Get the absolute path to a resource, whether running from .py or from a PyInstaller .exe """
     if getattr(sys, 'frozen', False):
-        # Running in a PyInstaller bundle
+        print("Running from a PyInstaller bundle.")
         return os.path.join(sys._MEIPASS, filename)
     else:
-        # Running in a normal Python environment
+        print("Running from normal Python environment.")
         return os.path.join(os.path.abspath("."), filename)
 
-# Use it for loading config
-with open(resource_path("config.json"), "r") as config_file: #"config.json" is opened, and is set to read mode "r" (default). The return value of open is stored in config_file.
-    config = json.load(config_file) #Loads the user updated config file to variable config.
+# --- Load configuration ---
+config_path = resource_path("config.json")
+print("Resolved config.json path:", config_path)
 
-# GoPro directory URL
+# Check if file exists before loading
+if not os.path.exists(config_path):
+    raise FileNotFoundError(f"config.json not found at: {config_path}")
+
+with open(config_path, "r") as config_file:
+    config = json.load(config_file)
+print("Config loaded successfully.")
+
 GOPRO_BASE_URL = "http://10.5.5.9/videos/DCIM/100GOPRO/"
 GOOGLE_DRIVE_FOLDER_ID = config["GOOGLE_DRIVE_FOLDER_ID"]
-
-# Set up Google Drive API service
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 SERVICE_ACCOUNT_FILE = config["SERVICE_ACCOUNT_FILE"]
 
-# Authenticate using service account credentials
 creds = Credentials.from_service_account_file(resource_path(SERVICE_ACCOUNT_FILE), scopes=SCOPES)
 drive_service = build('drive', 'v3', credentials=creds)
 
-
-# Determine base directory of the executable or script
+# --- Set base and date folder ---
 if getattr(sys, 'frozen', False):
-    # If running from a PyInstaller EXE
-    exe_dir = os.path.dirname(sys.executable) #directory of the executable file, stored in dist/.
-    BASE_DIR = os.path.abspath(os.path.join(exe_dir, os.pardir))  # One level up from dist/
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir))
 else:
-    # If running from a script
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Create a folder for today's date (e.g., 21-04-25) in BASE_DIR
 today_str = datetime.now().strftime("%d-%m-%y")
 day_folder = os.path.join(BASE_DIR, today_str)
-os.makedirs(day_folder, exist_ok=True) # Create the folder if it doesn't exist
+os.makedirs(day_folder, exist_ok=True)
 
+# --- GoPro Functions ---
 def get_latest_video_file():
     try:
-        # Fetch the HTML content of the directory
         response = requests.get(GOPRO_BASE_URL)
-
         if response.status_code == 200:
-            # Parse the HTML content
             soup = BeautifulSoup(response.text, "html.parser")
-
-            # Find all links in the directory listing (usually files will have <a> tags with href attributes)
-            links = soup.find_all('a')
-
-            # Filter links that end with ".MP4"
-            video_files = [link.get('href') for link in links if link.get('href') and link.get('href').endswith('.MP4')]
-
+            video_files = [link.get('href') for link in soup.find_all('a')
+                           if link.get('href') and link.get('href').endswith('.MP4')]
             if video_files:
-                # Sort video files based on their names (assuming they are sequentially numbered)
-                latest_video = sorted(video_files, reverse=True)[0]  # Get the most recent file. The "sorted" function has reverse=True, so the largest number is now [0].
-                return latest_video
+                return sorted(video_files, reverse=True)[0]
             else:
                 print("No video files found in the directory.")
-                return None
         else:
             print("Failed to connect to the GoPro.")
-            return None
     except Exception as e:
         print(f"Error accessing the GoPro directory: {e}")
-        return None
-
+    return None
 
 def download_video(latest_video):
-    # Define the local filename for saving the video
-    local_video_file = os.path.basename(latest_video)  # Extract filename (e.g., GX010185.MP4)
+    local_video_file = os.path.basename(latest_video)
+    local_path = os.path.join(day_folder, local_video_file)
 
-    # Construct the full local file path to save the video
-    local_path = os.path.join(day_folder, local_video_file) #Downloads to a folder (e.g. 12/3/25)
-    
     print(f"Downloading the latest video: {latest_video}")
-
-    # ✅ Ensure latest_video does not already contain the full path
-    if latest_video.startswith("/videos/"):
-        video_url = f"http://10.5.5.9{latest_video}"  # Use full correct path. F string is used, so curly brackets must be present for {latest video}.
-    else:
-        video_url = f"{GOPRO_BASE_URL}{latest_video}"  # Append if needed
-
+    video_url = f"{GOPRO_BASE_URL}{latest_video}" if not latest_video.startswith("/videos/") else f"http://10.5.5.9{latest_video}"
     print(f"Attempting to download from URL: {video_url}")
 
-    # Download the video file
     response = requests.get(video_url, stream=True)
     if response.status_code == 200:
-        with open(local_path, "wb") as file: #Opens the local path, set to write ("w") in binary mode ("b"). Video is downloaded into the local path.
+        with open(local_path, "wb") as file:
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
                     file.write(chunk)
-
         print(f"✅ Video downloaded successfully: {local_path}")
         return local_path
     else:
@@ -125,96 +102,104 @@ def download_video(latest_video):
 
 def upload_video_to_drive(local_video_file):
     try:
-        # Extract the filename (e.g., GX010186.mp4)
-        file_name = os.path.basename(local_video_file)
-
-        # Prepare file metadata for Google Drive
-        file_metadata = {
-            'name': file_name,
-            'parents': [GOOGLE_DRIVE_FOLDER_ID] #Dictionary uses curly brackets. Keys are 'name' and 'parents'.
-        }
-
-        # Use resumable upload for large files
+        file_metadata = {'name': os.path.basename(local_video_file), 'parents': [GOOGLE_DRIVE_FOLDER_ID]}
         media = MediaFileUpload(local_video_file, mimetype='video/mp4', resumable=True)
-        request = drive_service.files().create(
-            body=file_metadata,
-            media_body=media,
-            fields='id, webViewLink'
-        )
+        request = drive_service.files().create(body=file_metadata, media_body=media, fields='id, webViewLink')
 
         response = None
         while response is None:
             status, response = request.next_chunk()
             if status:
-                print(f"Uploading... {int(status.progress() * 100)}%") #Code for upload progress percentage.
+                print(f"Uploading... {int(status.progress() * 100)}%")
 
         print(f"✅ Video uploaded to Google Drive: {response['webViewLink']}")
         return response['webViewLink']
-
     except Exception as e:
         print(f"❌ Error uploading video to Google Drive: {e}")
         return None
 
 def generate_qr_code(video_link):
-    # Generate QR code for the video link
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(video_link) #Adds the video link to the QR code
-    qr.make(fit=True) #Creates the QR code with qr.make().
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+    qr.add_data(video_link)
+    qr.make(fit=True)
 
-    # Save the QR code image
-    qr_image_path = os.path.join(day_folder, "video_qr_code.png") #Saves qr code inside a folder e.g. 12/3/25.
+    qr_image_path = os.path.join(day_folder, "video_qr_code.png")
     img = qr.make_image(fill='black', back_color='white')
     img.save(qr_image_path)
 
     print(f"✅ QR Code saved at: {qr_image_path}")
 
-    # Open the image using the system's default image viewer
     try:
         if platform.system() == "Windows":
-            os.system(f'start "" "{qr_image_path}"')  # Works universally on Windows
-        elif platform.system() == "Darwin":  # macOS
+            os.system(f'start "" "{qr_image_path}"')
+        elif platform.system() == "Darwin":
             subprocess.run(["open", qr_image_path], check=True)
-        else:  # Linux
+        else:
             subprocess.run(["xdg-open", qr_image_path], check=True)
-
         print("✅ QR Code opened successfully.")
     except Exception as e:
         print(f"❌ Error opening QR Code: {e}")
 
     return qr_image_path
 
+
+# --- Updater Job ---
 def job_check_update():
-    """Wrapper so you can schedule easily."""
-    CheckLatestUpdate.check_and_update()
+    try:
+        CheckLatestUpdate.check_and_update()
+        new_exe = DIST_FOLDER / "Slingshot_new.exe"
 
-# Main execution flow
-latest_video = get_latest_video_file()
-if latest_video:
-    local_video_file = download_video(latest_video)
-    if local_video_file:
-        video_link = upload_video_to_drive(local_video_file)
-        if video_link:
-            generate_qr_code(video_link)
-else:
-    print("No latest video to upload.")
+        if new_exe.exists():
+            print("New version downloaded. Launching updater...")
+
+            # Determine where to look for launcher.exe
+            if getattr(sys, 'frozen', False):
+                exe_dir = Path(sys.executable).resolve().parent
+                launcher_path = exe_dir / "launcher.exe"
+            else:
+                # When not frozen, launcher.exe is in ./dist/
+                script_dir = Path(__file__).resolve().parent
+                launcher_path = script_dir / "dist" / "launcher.exe"
+
+            if launcher_path.exists():
+                print(f"Launching: {launcher_path}")
+                subprocess.Popen([str(launcher_path)], cwd=str(launcher_path.parent), shell=False)
+                sys.exit(0)
+            else:
+                print(f"[ERROR] launcher.exe not found at {launcher_path}")
+
+    except Exception as e:
+        print(f"[ERROR in check_and_update] {e}")
+        traceback.print_exc()
 
 
-# schedule to run every minute (or change to .hour, .day.at("10:00"), etc.)
-schedule.every().minute.do(job_check_update)
-
-print("Scheduler started: checking Slingshot.exe every minute.")
-# optional initial run
-job_check_update()
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 
 
+
+
+# --- Full GoPro Automation Cycle ---
+def run_gopro_cycle():
+    latest_video = get_latest_video_file()
+    if latest_video:
+        local_video_file = download_video(latest_video)
+        if local_video_file:
+            video_link = upload_video_to_drive(local_video_file)
+            if video_link:
+                generate_qr_code(video_link)
+    else:
+        print("No latest video to upload.")
+
+# --- Main Entry Point ---
+if __name__ == "__main__":
+    run_gopro_cycle()
+    job_check_update()
+    schedule.every().minute.do(job_check_update)
+
+    print("Scheduler started: checking Slingshot.exe every minute.")
+    print(f"Current version: {CheckLatestUpdate.get_local_version()}")
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
