@@ -16,6 +16,12 @@ This Executable file utilising Python automates the process of downloading the l
 
 -> Opens the QR code in the system's default image viewer for easy scanning.
 
+->Scans for latest version of exe file.
+
+->Automatically downloads and replaces the old exe file.
+
+->Automatically creates desktop shortcut for the new exe file.
+
 <====Requirements=====>
 
 -> A USB WIFI Adaptor connected to the Gopro camera wifi.
@@ -86,13 +92,15 @@ Step 3: Share a Google Drive Folder with the Service Account.
 
 Copy your Google Drive service account JSON file to the project directory and update the script accordingly.
 
-Step 4: Download the latest release executable file.
+Step 4: Download the latest release executable file Slingshot.exe.
 
--> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download main.exe with the tag "latest".
+-> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download Slingshot.exe with the tag "latest".
 
--> If downloading an updated version of main.exe, ensure that the old main.exe desktop shortcut is deleted.
+Step 5: Download the latest release executable file launcher.exe .
 
-Step 5: Configuration
+-> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download launcher.exe with the tag "latest".
+
+Step 6: Configuration
 
 Update the following variables in 'config.json':
 
@@ -102,7 +110,6 @@ Update the following variables in 'config.json':
 
 ->Ensure that the files config.json and service_account.json are present in the project directory:
 
--> Right click on main.exe in file manager -> Click on Show more options -> Create Shortcut -> Copy and paste the shortcut in home screen to create a desktop shortcut.
 
 <====Usage=====>
 
