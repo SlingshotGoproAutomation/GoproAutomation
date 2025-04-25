@@ -96,6 +96,10 @@ Step 4: Download the latest release executable file Slingshot.exe.
 
 -> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download Slingshot.exe with the tag "latest".
 
+-> Right Click on Slingshot.exe -> Properties -> Create Shortcut. 
+
+-> Shortcut will appear on Desktop home screen.
+
 Step 5: Download the latest release executable file launcher.exe .
 
 -> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download launcher.exe with the tag "latest".
