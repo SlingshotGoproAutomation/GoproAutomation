@@ -94,17 +94,15 @@ Copy your Google Drive service account JSON file to the project directory and up
 
 Step 4: Download the latest release executable file Slingshot.exe.
 
--> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download Slingshot.exe with the tag "latest".
+-> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download launcher.zip with the tag "latest".
+
+-> Extract launcher.zip. The Slingshpt.exe file should appear at dist/Slingshot/Slingshot.exe.
 
 -> Right Click on Slingshot.exe -> Properties -> Create Shortcut. 
 
 -> Shortcut will appear on Desktop home screen.
 
-Step 5: Download the latest release executable file launcher.exe .
-
--> Go to the repository GoProAutomation -> Click on Releases at right side of screen -> Download launcher.exe with the tag "latest".
-
-Step 6: Configuration
+Step 5: Configuration
 
 Update the following variables in 'config.json':
 
@@ -112,7 +110,7 @@ Update the following variables in 'config.json':
 
 -> SERVICE_ACCOUNT_FILE = "service_account.json" # Your service account key file
 
-->Ensure that the files config.json and service_account.json are present in the project directory:
+->Ensure that the files config.json and service_account.json are present in the project directory, under dist/Slingshot/Internal.
 
 
 <====Usage=====>
